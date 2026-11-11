@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7687770503973075"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7687770503973075" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Play Store & Developer Console</title>
@@ -14,13 +13,20 @@
                 extend: {
                     colors: {
                         play: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
+                            50: '#e8f5e9',
+                            100: '#c8e6c9',
+                            400: '#34a853',
                             500: '#01875f',
                             600: '#00704f',
                             700: '#00593f',
-                            800: '#004732'
+                            800: '#004732',
+                            900: '#003323'
                         }
+                    },
+                    boxShadow: {
+                        'play': '0 4px 20px -2px rgba(1, 135, 95, 0.15)',
+                        'card': '0 2px 12px 0 rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 25px -5px rgba(1, 135, 95, 0.3)'
                     }
                 }
             }
@@ -29,58 +35,73 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            background-color: #f8fafc;
         }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .custom-gradient {
+            background: linear-gradient(135deg, #01875f 0%, #004732 100%);
+        }
+        .banner-gradient {
+            background: linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.85) 100%);
+        }
     </style>
 
-    <!-- Firebase JS SDKs (Compat Version for smooth execution) -->
+    <!-- Firebase JS SDKs (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col pb-20 md:pb-0">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col pb-20 md:pb-0 selection:bg-play-500 selection:text-white">
 
-    <!-- Top Header -->
-    <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('apps')">
-                <svg class="w-8 h-8" viewBox="0 0 40 40">
-                    <path d="M6.17 3.08L22.5 19.41 6.17 35.75C5.46 35.08 5 34.09 5 32.96V7.04C5 5.91 5.46 4.92 6.17 3.08z" fill="#2196F3"/>
-                    <path d="M28.08 13.83l-5.58 5.58 5.58 5.58 6.33-3.61c.88-.5 1.47-1.42 1.47-2.47s-.59-1.97-1.47-2.47l-6.33-3.61z" fill="#FFC107"/>
-                    <path d="M6.17 3.08L22.5 19.41l5.58-5.58L10.3 3.83C9.08 3.13 7.58 2.87 6.17 3.08z" fill="#4CAF50"/>
-                    <path d="M22.5 19.41L6.17 35.75c1.41.21 2.91-.05 4.13-.75l17.78-10.01-5.58-5.58z" fill="#F44336"/>
-                </svg>
-                <span class="text-xl font-medium tracking-tight text-gray-700 hidden sm:inline">Google Play</span>
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="switchTab('apps')">
+                <div class="relative flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+                    <svg class="w-9 h-9 drop-shadow-sm" viewBox="0 0 40 40">
+                        <path d="M6.17 3.08L22.5 19.41 6.17 35.75C5.46 35.08 5 34.09 5 32.96V7.04C5 5.91 5.46 4.92 6.17 3.08z" fill="#2196F3"/>
+                        <path d="M28.08 13.83l-5.58 5.58 5.58 5.58 6.33-3.61c.88-.5 1.47-1.42 1.47-2.47s-.59-1.97-1.47-2.47l-6.33-3.61z" fill="#FFC107"/>
+                        <path d="M6.17 3.08L22.5 19.41l5.58-5.58L10.3 3.83C9.08 3.13 7.58 2.87 6.17 3.08z" fill="#4CAF50"/>
+                        <path d="M22.5 19.41L6.17 35.75c1.41.21 2.91-.05 4.13-.75l17.78-10.01-5.58-5.58z" fill="#F44336"/>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-slate-800 hidden sm:inline-block">Google Play</span>
             </div>
 
-            <!-- Search Bar -->
-            <div class="flex-1 max-w-2xl relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="Search apps & games..." 
-                    class="w-full pl-10 pr-10 py-2 bg-gray-100 focus:bg-white border border-transparent focus:border-play-500 rounded-full outline-none text-sm transition">
-                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                    <i class="fa-solid fa-xmark"></i>
+            <!-- Modernized Search Bar -->
+            <div class="flex-1 max-w-xl relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="Search apps, games & packages..." 
+                    class="w-full pl-11 pr-10 py-2.5 bg-slate-100/90 focus:bg-white border border-transparent focus:border-play-500 rounded-full outline-none text-sm transition-all shadow-inner placeholder:text-slate-400">
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
+                    <i class="fa-solid fa-circle-xmark text-sm"></i>
                 </button>
             </div>
 
-            <!-- Desktop Nav Links & Auth Button -->
-            <div class="flex items-center gap-3">
-                <nav class="hidden md:flex items-center gap-1 font-medium text-sm text-gray-600">
-                    <button onclick="switchTab('apps')" id="nav-desktop-apps" class="px-3 py-1.5 rounded-lg hover:bg-gray-100 text-play-500 font-semibold">Apps</button>
-                    <button onclick="switchTab('games')" id="nav-desktop-games" class="px-3 py-1.5 rounded-lg hover:bg-gray-100">Games</button>
-                    <button onclick="switchTab('books')" id="nav-desktop-books" class="px-3 py-1.5 rounded-lg hover:bg-gray-100">Books</button>
-                    <button onclick="switchTab('console')" id="nav-desktop-console" class="px-3 py-1.5 rounded-lg hover:bg-gray-100 text-purple-700"><i class="fa-solid fa-code mr-1"></i> Console</button>
+            <!-- Desktop Nav Links & Profile Section -->
+            <div class="flex items-center gap-4">
+                <nav class="hidden md:flex items-center gap-1 font-semibold text-sm text-slate-600">
+                    <button onclick="switchTab('apps')" id="nav-desktop-apps" class="px-4 py-2 rounded-full hover:bg-slate-100 text-play-500 font-bold transition">Apps</button>
+                    <button onclick="switchTab('games')" id="nav-desktop-games" class="px-4 py-2 rounded-full hover:bg-slate-100 transition">Games</button>
+                    <button onclick="switchTab('books')" id="nav-desktop-books" class="px-4 py-2 rounded-full hover:bg-slate-100 transition">Books</button>
+                    <button onclick="switchTab('console')" id="nav-desktop-console" class="px-4 py-2 rounded-full hover:bg-indigo-50 text-indigo-700 transition flex items-center gap-1.5"><i class="fa-solid fa-code text-xs"></i> Console</button>
                 </nav>
 
                 <div id="authProfileArea">
-                    <button onclick="openAuthModal()" class="flex items-center gap-2 bg-play-500 text-white px-4 py-1.5 rounded-full text-sm font-medium hover:bg-play-600 transition shadow-sm">
-                        <i class="fa-solid fa-user"></i>
+                    <button onclick="openAuthModal()" class="flex items-center gap-2 bg-play-500 hover:bg-play-600 active:scale-95 text-white px-5 py-2 rounded-full text-sm font-semibold transition shadow-md shadow-play-500/20">
+                        <i class="fa-solid fa-user text-xs"></i>
                         <span>Sign In</span>
                     </button>
                 </div>
@@ -88,165 +109,178 @@
         </div>
     </header>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-16 right-4 z-50 transform translate-x-full transition-transform duration-300 bg-gray-800 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3">
-        <i id="toastIcon" class="fa-solid fa-circle-check text-green-400"></i>
-        <span id="toastMsg" class="text-sm font-medium">Notification</span>
+    <!-- Toast Notification Widget -->
+    <div id="toast" class="fixed top-20 right-5 z-50 transform translate-x-full transition-all duration-300 ease-out glass-panel text-slate-800 border border-slate-200 px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 max-w-sm">
+        <div id="toastIconBg" class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-600"></i>
+        </div>
+        <span id="toastMsg" class="text-sm font-semibold text-slate-700">Notification</span>
     </div>
 
-    <!-- MAIN CONTENT VIEW -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+    <!-- MAIN APP WRAPPER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-8">
 
-        <!-- TAB 1 & 2: STORE HOMEPAGE -->
-        <div id="tab-store" class="space-y-6">
+        <!-- STORE HOMEPAGE VIEW -->
+        <div id="tab-store" class="space-y-8">
 
-            <!-- Banner Carousel (Auto 5s) -->
-            <div class="relative w-full h-44 sm:h-64 md:h-72 rounded-2xl overflow-hidden bg-gray-900 shadow-md group">
-                <div id="carouselSlides" class="w-full h-full flex transition-transform duration-700 ease-in-out">
-                    <!-- Dynamic Banners -->
+            <!-- Hero Banner Carousel -->
+            <div class="relative w-full h-48 sm:h-72 md:h-80 rounded-3xl overflow-hidden bg-slate-900 shadow-xl group border border-slate-800">
+                <div id="carouselSlides" class="w-full h-full flex transition-transform duration-700 ease-out">
+                    <!-- Dynamic Banners populated via JS -->
                 </div>
-                <button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-9 h-9 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                    <i class="fa-solid fa-chevron-left"></i>
+                <button onclick="prevSlide()" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/60 backdrop-blur-md text-white w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all border border-white/20">
+                    <i class="fa-solid fa-chevron-left text-sm"></i>
                 </button>
-                <button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-9 h-9 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                    <i class="fa-solid fa-chevron-right"></i>
+                <button onclick="nextSlide()" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/60 backdrop-blur-md text-white w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all border border-white/20">
+                    <i class="fa-solid fa-chevron-right text-sm"></i>
                 </button>
-                <div id="carouselDots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5"></div>
+                <div id="carouselDots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-md"></div>
             </div>
 
-            <!-- Categories Filter -->
-            <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar py-1">
-                <button onclick="filterCategory('All')" class="category-chip active px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-play-500 text-white shadow-sm transition">All</button>
-                <button onclick="filterCategory('Games')" class="category-chip px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition">Games</button>
-                <button onclick="filterCategory('Tools')" class="category-chip px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition">Tools</button>
-                <button onclick="filterCategory('Productivity')" class="category-chip px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition">Productivity</button>
-                <button onclick="filterCategory('Entertainment')" class="category-chip px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition">Entertainment</button>
-                <button onclick="filterCategory('Social')" class="category-chip px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition">Social</button>
+            <!-- Interactive Category Filter Chips -->
+            <div class="flex items-center gap-2.5 overflow-x-auto hide-scrollbar py-1">
+                <button onclick="filterCategory('All')" class="category-chip active px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-play-500 text-white shadow-md shadow-play-500/20 transition-all">All Apps</button>
+                <button onclick="filterCategory('Games')" class="category-chip px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all">Games</button>
+                <button onclick="filterCategory('Tools')" class="category-chip px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all">Tools</button>
+                <button onclick="filterCategory('Productivity')" class="category-chip px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all">Productivity</button>
+                <button onclick="filterCategory('Entertainment')" class="category-chip px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all">Entertainment</button>
+                <button onclick="filterCategory('Social')" class="category-chip px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all">Social</button>
             </div>
 
-            <!-- Approved Apps Grid -->
-            <div>
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">Verified Mobile Applications</h2>
-                    <span id="appCount" class="text-xs font-semibold text-gray-500 bg-gray-200 px-2.5 py-1 rounded-full">0 apps</span>
+            <!-- Approved Apps Display Section -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-center px-1">
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Verified Mobile Applications</h2>
+                    <span id="appCount" class="text-xs font-bold text-play-700 bg-play-50 border border-play-200 px-3 py-1 rounded-full">0 apps</span>
                 </div>
 
-                <div id="appsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    <!-- Dynamic Apps -->
+                <div id="appsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
+                    <!-- Dynamic Apps Populated Here -->
                 </div>
 
-                <div id="noAppsState" class="hidden text-center py-12">
-                    <i class="fa-solid fa-box-open text-5xl text-gray-300 mb-3"></i>
-                    <p class="text-gray-500 font-medium">No approved apps available right now.</p>
+                <div id="noAppsState" class="hidden text-center py-16 bg-white rounded-3xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800">No Apps Found</h3>
+                    <p class="text-slate-500 text-sm max-w-sm mx-auto">There are no approved apps under this filter right now. Check back soon!</p>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 3: APP DETAILS -->
-        <div id="tab-app-details" class="hidden max-w-4xl mx-auto bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 shadow-sm space-y-6">
-            <button onclick="switchTab('apps')" class="flex items-center gap-2 text-play-500 hover:text-play-700 text-sm font-medium mb-2">
+        <!-- TAB 3: APP DETAILS PAGE VIEW -->
+        <div id="tab-app-details" class="hidden max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-lg space-y-8">
+            <button onclick="switchTab('apps')" class="inline-flex items-center gap-2 text-play-500 hover:text-play-700 font-bold text-sm bg-play-50 hover:bg-play-100 px-4 py-2 rounded-full transition">
                 <i class="fa-solid fa-arrow-left"></i> Back to Store
             </button>
 
-            <div class="flex flex-col sm:flex-row gap-6 items-start">
-                <img id="detailAppIcon" src="https://placehold.co/128x128/01875f/ffffff?text=App" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover shadow-sm border border-gray-100">
-                <div class="flex-1 space-y-2">
-                    <h1 id="detailAppName" class="text-2xl sm:text-3xl font-bold text-gray-900">App Name</h1>
-                    <p id="detailDevName" class="text-play-500 font-medium text-sm">Developer</p>
-                    <div class="flex flex-wrap items-center gap-4 text-xs text-gray-500 pt-1">
-                        <div class="flex items-center gap-1 font-bold text-gray-800 text-sm">
-                            4.8 <i class="fa-solid fa-star text-amber-400"></i>
-                        </div>
-                        <div class="border-l border-gray-300 h-4"></div>
-                        <div><span id="detailDownloads" class="font-bold text-gray-800 text-sm">0</span> downloads</div>
-                        <div class="border-l border-gray-300 h-4"></div>
-                        <div id="detailCategory" class="bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-full font-medium">Tools</div>
-                        <div class="border-l border-gray-300 h-4"></div>
-                        <div id="detailVersion" class="text-gray-600">v1.0.0</div>
+            <div class="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
+                <img id="detailAppIcon" src="https://placehold.co/128x128/01875f/ffffff?text=App" class="w-28 h-28 sm:w-36 sm:h-36 rounded-3xl object-cover shadow-lg border border-slate-100 flex-shrink-0">
+                <div class="flex-1 space-y-3">
+                    <div>
+                        <h1 id="detailAppName" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">App Name</h1>
+                        <p id="detailDevName" class="text-play-600 font-bold text-sm mt-0.5">Developer Name</p>
                     </div>
 
-                    <div class="pt-3">
-                        <button id="downloadBtn" onclick="triggerAppDownload()" class="bg-play-500 hover:bg-play-600 text-white font-semibold px-8 py-2.5 rounded-lg shadow-sm transition flex items-center gap-2">
-                            <i class="fa-solid fa-download"></i> Download APK
+                    <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-slate-500 pt-1">
+                        <div class="flex items-center gap-1.5 font-bold text-slate-800 bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-lg text-sm">
+                            4.8 <i class="fa-solid fa-star text-amber-500"></i>
+                        </div>
+                        <div class="border-l border-slate-200 h-5"></div>
+                        <div class="font-bold text-slate-800 text-sm"><span id="detailDownloads" class="text-slate-900">0</span> <span class="font-medium text-slate-500 text-xs">downloads</span></div>
+                        <div class="border-l border-slate-200 h-5"></div>
+                        <div id="detailCategory" class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full font-bold">Tools</div>
+                        <div class="border-l border-slate-200 h-5"></div>
+                        <div id="detailVersion" class="font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">v1.0.0</div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button id="downloadBtn" onclick="triggerAppDownload()" class="bg-play-500 hover:bg-play-600 active:scale-95 text-white font-bold px-8 py-3 rounded-2xl shadow-lg shadow-play-500/25 transition flex items-center justify-center gap-2.5 w-full sm:w-auto">
+                            <i class="fa-solid fa-download"></i> Download APK File
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-gray-100 pt-6">
-                <h3 class="text-lg font-bold text-gray-800 mb-3">Screenshots</h3>
-                <div id="detailScreenshots" class="flex gap-3 overflow-x-auto hide-scrollbar pb-2"></div>
+            <!-- Screenshots Gallery -->
+            <div class="border-t border-slate-100 pt-8 space-y-4">
+                <h3 class="text-lg font-bold text-slate-900">App Preview Screenshots</h3>
+                <div id="detailScreenshots" class="flex gap-4 overflow-x-auto hide-scrollbar pb-3"></div>
             </div>
 
-            <div class="border-t border-gray-100 pt-6 space-y-3">
-                <h3 class="text-lg font-bold text-gray-800">About this app</h3>
-                <p id="detailShortDesc" class="text-gray-700 font-medium text-sm"></p>
-                <p id="detailFullDesc" class="text-gray-600 text-sm whitespace-pre-line leading-relaxed"></p>
+            <!-- About Section -->
+            <div class="border-t border-slate-100 pt-8 space-y-3">
+                <h3 class="text-lg font-bold text-slate-900">About this application</h3>
+                <p id="detailShortDesc" class="text-slate-800 font-semibold text-base leading-snug"></p>
+                <p id="detailFullDesc" class="text-slate-600 text-sm whitespace-pre-line leading-relaxed pt-2 border-t border-slate-100"></p>
             </div>
         </div>
 
         <!-- TAB 4: BOOKS TAB -->
-        <div id="tab-books" class="hidden text-center py-16 max-w-lg mx-auto space-y-4">
-            <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-3xl">
+        <div id="tab-books" class="hidden text-center py-20 max-w-md mx-auto space-y-4 bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+            <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">
                 <i class="fa-solid fa-book-open"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-800">Google Play Books</h2>
-            <p class="text-gray-500 text-sm">Ebooks and audiobooks section is coming soon!</p>
+            <h2 class="text-2xl font-extrabold text-slate-900">Google Play Books</h2>
+            <p class="text-slate-500 text-sm leading-relaxed">Our curated catalog of ebooks, comics and audiobooks will be available here soon!</p>
         </div>
 
         <!-- TAB 5: DEVELOPER CONSOLE -->
-        <div id="tab-console" class="hidden space-y-6">
-            <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-6 rounded-2xl shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h1 class="text-2xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-code text-purple-400"></i> Developer Console
-                    </h1>
-                    <p class="text-slate-300 text-sm mt-1">Upload apps, track reviews and manage published releases.</p>
+        <div id="tab-console" class="hidden space-y-8">
+            <div class="custom-gradient text-white p-6 sm:p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-white pointer-events-none">
+                    <i class="fa-solid fa-laptop-code"></i>
                 </div>
-                <button onclick="openUploadModal()" class="bg-play-500 hover:bg-play-600 text-white font-medium px-5 py-2.5 rounded-xl shadow transition flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Submit New App
+                <div class="relative z-10 space-y-1">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold flex items-center gap-3">
+                        <i class="fa-solid fa-code text-play-100"></i> Google Play Console
+                    </h1>
+                    <p class="text-play-100 text-sm max-w-xl">Publish new applications, inspect verification status, and manage your Android product catalog.</p>
+                </div>
+                <button onclick="openUploadModal()" class="relative z-10 bg-white text-play-800 hover:bg-slate-50 active:scale-95 font-bold px-6 py-3 rounded-2xl shadow-lg transition flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-cloud-arrow-up text-play-600"></i> Submit New App
                 </button>
             </div>
 
-            <!-- Stats Overview -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
-                    <div class="p-3 bg-blue-100 text-blue-600 rounded-xl text-xl"><i class="fa-solid fa-cubes"></i></div>
+            <!-- Stats Cards Overview -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-5">
+                    <div class="p-4 bg-blue-50 text-blue-600 rounded-2xl text-2xl"><i class="fa-solid fa-cubes"></i></div>
                     <div>
-                        <div class="text-2xl font-bold text-gray-800" id="devTotalApps">0</div>
-                        <div class="text-xs font-medium text-gray-500">Total Uploads</div>
+                        <div class="text-3xl font-extrabold text-slate-900" id="devTotalApps">0</div>
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mt-0.5">Total Submissions</div>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
-                    <div class="p-3 bg-green-100 text-green-600 rounded-xl text-xl"><i class="fa-solid fa-download"></i></div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-5">
+                    <div class="p-4 bg-emerald-50 text-emerald-600 rounded-2xl text-2xl"><i class="fa-solid fa-circle-down"></i></div>
                     <div>
-                        <div class="text-2xl font-bold text-gray-800" id="devTotalDownloads">0</div>
-                        <div class="text-xs font-medium text-gray-500">Total Downloads</div>
+                        <div class="text-3xl font-extrabold text-slate-900" id="devTotalDownloads">0</div>
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mt-0.5">Total Downloads</div>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
-                    <div class="p-3 bg-purple-100 text-purple-600 rounded-xl text-xl"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-5">
+                    <div class="p-4 bg-teal-50 text-teal-600 rounded-2xl text-2xl"><i class="fa-solid fa-circle-check"></i></div>
                     <div>
-                        <div class="text-2xl font-bold text-gray-800" id="devApprovedApps">0</div>
-                        <div class="text-xs font-medium text-gray-500">Approved & Live</div>
+                        <div class="text-3xl font-extrabold text-slate-900" id="devApprovedApps">0</div>
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mt-0.5">Live & Approved</div>
                     </div>
                 </div>
             </div>
 
-            <!-- App List -->
-            <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-4">
-                <h3 class="text-lg font-bold text-gray-800">Your Submitted Apps</h3>
-                <div id="devAppList" class="space-y-3"></div>
+            <!-- Published Apps List -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
+                <h3 class="text-xl font-bold text-slate-900">Your App Dashboard</h3>
+                <div id="devAppList" class="space-y-4"></div>
             </div>
 
             <!-- Developer Guidelines Links -->
-            <div class="flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 pt-4 text-xs text-gray-500">
-                <span>Developer Console</span>
-                <div class="flex gap-4">
-                    <a href="https://app-bazaar-privacy-policy.vercel.app/" target="_blank" class="hover:underline hover:text-play-500">Privacy Policy</a>
-                    <a href="https://app-bazaar-terms-and-condition-fdaj.vercel.app/" target="_blank" class="hover:underline hover:text-play-500">Terms & Conditions</a>
+            <div class="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6 text-xs text-slate-500">
+                <span class="font-semibold">Google Play Developer Console Portal</span>
+                <div class="flex gap-6 font-medium">
+                    <a href="https://app-bazaar-privacy-policy.vercel.app/" target="_blank" class="hover:underline hover:text-play-600 transition">Privacy Policy</a>
+                    <a href="https://app-bazaar-terms-and-condition-fdaj.vercel.app/" target="_blank" class="hover:underline hover:text-play-600 transition">Terms & Conditions</a>
                 </div>
             </div>
         </div>
@@ -254,78 +288,89 @@
     </main>
 
     <!-- MOBILE NAVIGATION BAR -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-30 flex justify-around py-2 shadow-lg">
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-slate-200 z-40 flex justify-around py-2.5 shadow-2xl">
         <button onclick="switchTab('apps')" id="nav-mobile-apps" class="flex flex-col items-center gap-1 text-play-500">
             <i class="fa-solid fa-border-all text-lg"></i>
-            <span class="text-[10px] font-medium">Apps</span>
+            <span class="text-[10px] font-bold">Apps</span>
         </button>
-        <button onclick="switchTab('games')" id="nav-mobile-games" class="flex flex-col items-center gap-1 text-gray-500">
+        <button onclick="switchTab('games')" id="nav-mobile-games" class="flex flex-col items-center gap-1 text-slate-400">
             <i class="fa-solid fa-gamepad text-lg"></i>
-            <span class="text-[10px] font-medium">Games</span>
+            <span class="text-[10px] font-bold">Games</span>
         </button>
-        <button onclick="switchTab('books')" id="nav-mobile-books" class="flex flex-col items-center gap-1 text-gray-500">
+        <button onclick="switchTab('books')" id="nav-mobile-books" class="flex flex-col items-center gap-1 text-slate-400">
             <i class="fa-solid fa-book text-lg"></i>
-            <span class="text-[10px] font-medium">Books</span>
+            <span class="text-[10px] font-bold">Books</span>
         </button>
-        <button onclick="switchTab('console')" id="nav-mobile-console" class="flex flex-col items-center gap-1 text-gray-500">
+        <button onclick="switchTab('console')" id="nav-mobile-console" class="flex flex-col items-center gap-1 text-slate-400">
             <i class="fa-solid fa-laptop-code text-lg"></i>
-            <span class="text-[10px] font-medium">Console</span>
+            <span class="text-[10px] font-bold">Console</span>
         </button>
     </nav>
 
     <!-- AUTH MODAL -->
-    <div id="authModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl relative space-y-4">
-            <button onclick="closeAuthModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <div class="text-center">
-                <h2 id="authTitle" class="text-2xl font-bold text-gray-800">Sign In</h2>
-                <p class="text-xs text-gray-500 mt-1">Access Developer Console to publish apps</p>
+    <div id="authModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-md p-6 sm:p-8 shadow-2xl relative space-y-6 border border-slate-100">
+            <button onclick="closeAuthModal()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-600 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            
+            <div class="text-center space-y-1">
+                <div class="w-12 h-12 bg-play-50 text-play-600 rounded-2xl flex items-center justify-center mx-auto text-xl mb-2">
+                    <i class="fa-solid fa-user-gear"></i>
+                </div>
+                <h2 id="authTitle" class="text-2xl font-extrabold text-slate-900">Sign In</h2>
+                <p class="text-xs font-medium text-slate-500">Access Console to publish & update Android apps</p>
             </div>
-            <form onsubmit="handleAuthSubmit(event)" class="space-y-3">
+
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
                 <div id="displayNameField" class="hidden">
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Your Name</label>
-                    <input type="text" id="authDisplayName" placeholder="Studio Name" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:border-play-500">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Developer / Studio Name</label>
+                    <input type="text" id="authDisplayName" placeholder="e.g. Apex Games Studio" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:bg-white focus:border-play-500 transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Email</label>
-                    <input type="email" id="authEmail" required placeholder="developer@gmail.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:border-play-500">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+                    <input type="email" id="authEmail" required placeholder="developer@gmail.com" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:bg-white focus:border-play-500 transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Password</label>
-                    <input type="password" id="authPassword" required placeholder="••••••••" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:border-play-500">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+                    <input type="password" id="authPassword" required placeholder="••••••••" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:bg-white focus:border-play-500 transition">
                 </div>
-                <button type="submit" id="authSubmitBtn" class="w-full py-2.5 bg-play-500 hover:bg-play-600 text-white font-medium rounded-lg text-sm transition">Sign In</button>
+                <button type="submit" id="authSubmitBtn" class="w-full py-3 bg-play-500 hover:bg-play-600 text-white font-bold rounded-xl text-sm shadow-md shadow-play-500/20 transition active:scale-95">Sign In</button>
             </form>
-            <div class="text-center pt-2 text-xs text-gray-500">
-                <span id="authToggleText">Don't have an account?</span>
-                <button onclick="toggleAuthMode()" id="authToggleBtn" class="text-play-500 font-bold ml-1 hover:underline">Sign Up</button>
+
+            <div class="text-center pt-1 text-xs font-semibold text-slate-500 border-t border-slate-100">
+                <span id="authToggleText">Don't have a developer account?</span>
+                <button onclick="toggleAuthMode()" id="authToggleBtn" class="text-play-600 font-bold ml-1 hover:underline">Sign Up</button>
             </div>
         </div>
     </div>
 
-    <!-- PUBLISH / EDIT APP MODAL -->
-    <div id="appModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl w-full max-w-2xl p-6 shadow-2xl relative my-8 space-y-4">
-            <button onclick="closeAppModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <h2 id="appModalTitle" class="text-xl font-bold text-gray-800">Upload New Application</h2>
+    <!-- PUBLISH / EDIT APP MODAL (WITH MISSING ID FIX) -->
+    <div id="appModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl w-full max-w-2xl p-6 sm:p-8 shadow-2xl relative my-8 space-y-5 border border-slate-100">
+            <button onclick="closeAppModal()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-600 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            
+            <div>
+                <h2 id="appModalTitle" class="text-2xl font-extrabold text-slate-900">Upload New Application</h2>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">Fill out your app package metadata for verification testing.</p>
+            </div>
 
-            <form onsubmit="handleAppFormSubmit(event)" class="space-y-4 text-sm">
+            <!-- CRITICAL FIX: Added missing id="appForm" to prevent 'Cannot read properties of null (reading reset)' -->
+            <form id="appForm" onsubmit="handleAppFormSubmit(event)" class="space-y-4 text-sm">
                 <input type="hidden" id="formAppId">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block font-semibold text-gray-700 mb-1">App Name *</label>
-                        <input type="text" id="formAppName" required placeholder="e.g. Photo Editor Pro" class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500">
+                        <label class="block font-bold text-slate-700 mb-1">Application Name *</label>
+                        <input type="text" id="formAppName" required placeholder="e.g. Photo Editor Pro" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition">
                     </div>
                     <div>
-                        <label class="block font-semibold text-gray-700 mb-1">Package Name *</label>
-                        <input type="text" id="formPackageName" required placeholder="com.company.appname" class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500">
+                        <label class="block font-bold text-slate-700 mb-1">Package Name (Unique ID) *</label>
+                        <input type="text" id="formPackageName" required placeholder="com.company.appname" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                        <label class="block font-semibold text-gray-700 mb-1">Category *</label>
-                        <select id="formCategory" required class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500 bg-white">
+                        <label class="block font-bold text-slate-700 mb-1">Category *</label>
+                        <select id="formCategory" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition">
                             <option value="Tools">Tools</option>
                             <option value="Games">Games</option>
                             <option value="Productivity">Productivity</option>
@@ -334,49 +379,49 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block font-semibold text-gray-700 mb-1">Version *</label>
-                        <input type="text" id="formVersion" required placeholder="1.0.0" class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500">
+                        <label class="block font-bold text-slate-700 mb-1">Version *</label>
+                        <input type="text" id="formVersion" required placeholder="1.0.0" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition">
                     </div>
                     <div>
-                        <label class="block font-semibold text-gray-700 mb-1">Developer Name *</label>
-                        <input type="text" id="formDevName" required placeholder="Studio Name" class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500">
+                        <label class="block font-bold text-slate-700 mb-1">Developer Name *</label>
+                        <input type="text" id="formDevName" required placeholder="Studio Name" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-semibold text-gray-700 mb-1">App Icon URL *</label>
-                    <input type="url" id="formIconUrl" required placeholder="https://example.com/icon.png" class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500">
+                    <label class="block font-bold text-slate-700 mb-1">App Icon URL *</label>
+                    <input type="url" id="formIconUrl" required placeholder="https://example.com/icon.png" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition">
                 </div>
 
                 <div>
-                    <label class="block font-semibold text-gray-700 mb-1">APK Direct Link *</label>
-                    <input type="url" id="formApkUrl" required placeholder="https://example.com/app.apk" class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500">
+                    <label class="block font-bold text-slate-700 mb-1">APK Direct Link *</label>
+                    <input type="url" id="formApkUrl" required placeholder="https://example.com/app.apk" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition">
                 </div>
 
                 <div>
-                    <label class="block font-semibold text-gray-700 mb-1">Screenshots (Comma Separated URLs) *</label>
-                    <input type="text" id="formScreenshots" required placeholder="https://img1.png, https://img2.png" class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500">
+                    <label class="block font-bold text-slate-700 mb-1">Screenshots (Comma Separated URLs) *</label>
+                    <input type="text" id="formScreenshots" required placeholder="https://img1.png, https://img2.png" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition">
                 </div>
 
                 <div>
-                    <label class="block font-semibold text-gray-700 mb-1">Short Description *</label>
-                    <input type="text" id="formShortDesc" required placeholder="Brief description" class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500">
+                    <label class="block font-bold text-slate-700 mb-1">Short Tagline Description *</label>
+                    <input type="text" id="formShortDesc" required placeholder="Brief highlight of main features" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition">
                 </div>
 
                 <div>
-                    <label class="block font-semibold text-gray-700 mb-1">Full Description *</label>
-                    <textarea id="formFullDesc" rows="3" required placeholder="Detailed information..." class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-play-500"></textarea>
+                    <label class="block font-bold text-slate-700 mb-1">Full Release Description *</label>
+                    <textarea id="formFullDesc" rows="3" required placeholder="Detailed information regarding functionality, updates, etc." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-play-500 transition"></textarea>
                 </div>
 
-                <div class="flex justify-end gap-3 pt-2">
-                    <button type="button" onclick="closeAppModal()" class="px-4 py-2 border border-gray-300 rounded-lg font-medium text-gray-600 hover:bg-gray-100">Cancel</button>
-                    <button type="submit" class="px-6 py-2 bg-play-500 hover:bg-play-600 text-white rounded-lg font-medium shadow-sm">Submit For Review</button>
+                <div class="flex justify-end gap-3 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeAppModal()" class="px-5 py-2.5 border border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition">Cancel</button>
+                    <button type="submit" class="px-7 py-2.5 bg-play-500 hover:bg-play-600 text-white rounded-xl font-bold shadow-md shadow-play-500/20 transition active:scale-95">Submit For Review</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MAIN JAVASCRIPT LOGIC -->
+    <!-- MAIN JAVASCRIPT ENGINE -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDx4Op4Z93ut30pIfnmSqW8EB4yrb772XA",
@@ -408,18 +453,18 @@
                 if (currentTab === 'console') renderDevConsole();
             });
 
-            // Listen on 'banners' node
+            // Realtime Banners Listener
             db.ref('banners').on('value', snapshot => {
                 const data = snapshot.val();
                 allBanners = data ? Object.keys(data).map(k => ({ id: k, ...data[k] })) : [];
                 renderCarousel();
             });
 
-            // Listen on 'apps' node
+            // Realtime Apps Listener
             db.ref('apps').on('value', snapshot => {
                 allApps = snapshot.val() || {};
                 
-                // Auto seed demo apps if database is completely empty
+                // Seed sample data if real-time database is empty
                 if (Object.keys(allApps).length === 0) {
                     seedInitialData();
                     return;
@@ -490,8 +535,8 @@
             ['apps', 'games', 'books', 'console'].forEach(t => {
                 const dt = document.getElementById(`nav-desktop-${t}`);
                 const mb = document.getElementById(`nav-mobile-${t}`);
-                if (dt) dt.className = "px-3 py-1.5 rounded-lg hover:bg-gray-100";
-                if (mb) mb.className = "flex flex-col items-center gap-1 text-gray-500";
+                if (dt) dt.className = "px-4 py-2 rounded-full hover:bg-slate-100 transition text-slate-600 font-semibold";
+                if (mb) mb.className = "flex flex-col items-center gap-1 text-slate-400";
             });
 
             if (tab === 'apps' || tab === 'games') {
@@ -506,7 +551,7 @@
 
             const activeDt = document.getElementById(`nav-desktop-${tab}`);
             const activeMb = document.getElementById(`nav-mobile-${tab}`);
-            if (activeDt) activeDt.className = "px-3 py-1.5 rounded-lg hover:bg-gray-100 text-play-500 font-semibold";
+            if (activeDt) activeDt.className = "px-4 py-2 rounded-full hover:bg-slate-100 text-play-500 font-bold transition";
             if (activeMb) activeMb.className = "flex flex-col items-center gap-1 text-play-500 font-bold";
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -518,10 +563,12 @@
 
             if (!allBanners || allBanners.length === 0) {
                 container.innerHTML = `
-                    <div class="w-full h-full flex-shrink-0 bg-gradient-to-r from-teal-800 to-play-700 text-white flex flex-col justify-center p-6 sm:p-10">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-green-300 mb-1">Featured Applications</span>
-                        <h2 class="text-2xl sm:text-4xl font-bold mb-2">Welcome to Google Play</h2>
-                        <p class="text-sm sm:text-base text-gray-200">Discover top rated utility tools and indie games.</p>
+                    <div class="w-full h-full flex-shrink-0 custom-gradient text-white flex flex-col justify-end p-6 sm:p-10 relative">
+                        <div class="relative z-10 space-y-1">
+                            <span class="text-xs font-extrabold uppercase tracking-widest text-emerald-300">Google Play Store</span>
+                            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">Explore Top Rated Apps</h2>
+                            <p class="text-xs sm:text-sm text-emerald-100 max-w-md">Discover high performance utility tools, entertainment apps and trending games.</p>
+                        </div>
                     </div>
                 `;
                 dotsContainer.innerHTML = '';
@@ -531,15 +578,15 @@
             container.innerHTML = allBanners.map(b => `
                 <div class="w-full h-full flex-shrink-0 relative">
                     <img src="${b.imageUrl}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x300/01875f/ffffff?text=Play+Store+Banner'">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
-                        <h2 class="text-xl sm:text-3xl font-bold">${escapeHtml(b.title || '')}</h2>
-                        <p class="text-xs sm:text-sm text-gray-200">${escapeHtml(b.subtitle || '')}</p>
+                    <div class="absolute inset-0 banner-gradient p-6 sm:p-10 flex flex-col justify-end text-white space-y-1">
+                        <h2 class="text-xl sm:text-3xl font-extrabold">${escapeHtml(b.title || '')}</h2>
+                        <p class="text-xs sm:text-sm text-slate-200 font-medium max-w-lg">${escapeHtml(b.subtitle || '')}</p>
                     </div>
                 </div>
             `).join('');
 
             dotsContainer.innerHTML = allBanners.map((_, idx) => `
-                <div class="w-2 h-2 rounded-full ${idx === currentSlideIndex ? 'bg-white w-5' : 'bg-white/50'} transition-all"></div>
+                <div class="h-2 rounded-full ${idx === currentSlideIndex ? 'bg-white w-6' : 'bg-white/40 w-2'} transition-all duration-300"></div>
             `).join('');
         }
 
@@ -560,9 +607,10 @@
         window.filterCategory = function(cat) {
             selectedCategory = cat;
             document.querySelectorAll('.category-chip').forEach(btn => {
-                btn.className = (btn.innerText === cat)
-                    ? "category-chip active px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-play-500 text-white shadow-sm transition"
-                    : "category-chip px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition";
+                const isSelected = (btn.innerText.trim() === cat || (cat === 'All' && btn.innerText.includes('All')));
+                btn.className = isSelected
+                    ? "category-chip active px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-play-500 text-white shadow-md shadow-play-500/20 transition-all"
+                    : "category-chip px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all";
             });
             renderApps();
         };
@@ -586,7 +634,7 @@
 
             let appList = Object.keys(allApps).map(id => ({ id, ...allApps[id] }));
 
-            // Strictly filter approved apps for user display
+            // Display only approved apps in main store view
             appList = appList.filter(app => app.status === 'approved');
 
             if (selectedCategory !== 'All') {
@@ -611,21 +659,23 @@
 
             noAppsState.classList.add('hidden');
             grid.innerHTML = appList.map(app => `
-                <div onclick="showAppDetails('${app.id}')" class="bg-white p-3.5 rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-md transition cursor-pointer flex flex-col justify-between space-y-3 group">
-                    <div class="space-y-2">
-                        <img src="${app.icon || 'https://placehold.co/100x100/01875f/ffffff?text=App'}" 
-                             onerror="this.src='https://placehold.co/100x100/01875f/ffffff?text=App'" 
-                             class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform">
+                <div onclick="showAppDetails('${app.id}')" class="bg-white p-4 rounded-3xl border border-slate-200/80 hover:border-play-500/40 hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-3 group">
+                    <div class="space-y-3">
+                        <div class="relative overflow-hidden rounded-2xl">
+                            <img src="${app.icon || 'https://placehold.co/100x100/01875f/ffffff?text=App'}" 
+                                 onerror="this.src='https://placehold.co/100x100/01875f/ffffff?text=App'" 
+                                 class="w-full aspect-square rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform duration-300">
+                        </div>
                         <div>
-                            <h3 class="font-semibold text-gray-800 text-sm truncate">${escapeHtml(app.name || 'Untitled')}</h3>
-                            <p class="text-xs text-gray-500 truncate">${escapeHtml(app.developer || 'Developer')}</p>
+                            <h3 class="font-bold text-slate-900 text-sm truncate group-hover:text-play-600 transition-colors">${escapeHtml(app.name || 'Untitled')}</h3>
+                            <p class="text-xs font-semibold text-slate-400 truncate mt-0.5">${escapeHtml(app.developer || 'Developer')}</p>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between text-xs text-gray-500 pt-1 border-t border-gray-50">
-                        <span class="flex items-center gap-1 font-medium text-gray-700">
-                            4.8 <i class="fa-solid fa-star text-amber-400 text-[10px]"></i>
+                    <div class="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100 font-semibold">
+                        <span class="flex items-center gap-1 text-slate-800 font-bold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/50">
+                            4.8 <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
                         </span>
-                        <span>${app.downloads || 0} Downloads</span>
+                        <span>${app.downloads || 0} installs</span>
                     </div>
                 </div>
             `).join('');
@@ -651,10 +701,10 @@
 
             if (shots.length > 0) {
                 screenshotsContainer.innerHTML = shots.map(url => `
-                    <img src="${url}" onerror="this.src='https://placehold.co/300x500/01875f/ffffff?text=Preview'" class="h-48 sm:h-64 rounded-xl object-cover border border-gray-200 shadow-sm flex-shrink-0">
+                    <img src="${url}" onerror="this.src='https://placehold.co/300x500/01875f/ffffff?text=Preview'" class="h-56 sm:h-72 rounded-2xl object-cover border border-slate-200 shadow-md flex-shrink-0">
                 `).join('');
             } else {
-                screenshotsContainer.innerHTML = `<p class="text-xs text-gray-400">No screenshots provided.</p>`;
+                screenshotsContainer.innerHTML = `<p class="text-xs text-slate-400 italic">No app preview screenshots available.</p>`;
             }
 
             if (switchView) {
@@ -669,7 +719,7 @@
             const appRef = db.ref(`apps/${activeAppDetails.id}/downloads`);
             appRef.transaction(curr => (curr || 0) + 1, (err, committed) => {
                 if (committed) {
-                    showToast("Download started!", "success");
+                    showToast("App download initiated!", "success");
                     if (activeAppDetails.apkUrl) window.open(activeAppDetails.apkUrl, '_blank');
                 }
             });
@@ -683,10 +733,13 @@
 
             if (!currentUser) {
                 devAppList.innerHTML = `
-                    <div class="text-center py-8 bg-gray-50 rounded-xl border border-dashed border-gray-300 space-y-3">
-                        <i class="fa-solid fa-lock text-3xl text-gray-400"></i>
-                        <p class="text-sm font-medium text-gray-600">Sign in to publish & manage your apps.</p>
-                        <button onclick="openAuthModal()" class="px-4 py-2 bg-play-500 text-white rounded-lg text-xs font-semibold">Sign In</button>
+                    <div class="text-center py-12 bg-slate-50 rounded-3xl border border-dashed border-slate-300 space-y-3">
+                        <div class="w-12 h-12 bg-slate-200 text-slate-500 rounded-full flex items-center justify-center mx-auto text-xl">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <h4 class="text-base font-bold text-slate-800">Developer Authorization Required</h4>
+                        <p class="text-xs font-medium text-slate-500 max-w-sm mx-auto">Sign in to your developer profile to upload new binaries, view statistics, and update app releases.</p>
+                        <button onclick="openAuthModal()" class="px-5 py-2.5 bg-play-500 text-white rounded-xl text-xs font-bold shadow-md shadow-play-500/20 hover:bg-play-600 transition">Sign In To Console</button>
                     </div>
                 `;
                 devTotalApps.innerText = '0';
@@ -704,38 +757,42 @@
             devApprovedApps.innerText = myApps.filter(a => a.status === 'approved').length;
 
             if (myApps.length === 0) {
-                devAppList.innerHTML = `<div class="text-center py-8 text-gray-500 text-sm">No apps submitted yet. Click "Submit New App" to publish.</div>`;
+                devAppList.innerHTML = `
+                    <div class="text-center py-10 bg-slate-50 rounded-2xl text-slate-500 text-sm font-medium border border-slate-200/60">
+                        No applications submitted yet. Click "Submit New App" to start publishing.
+                    </div>
+                `;
                 return;
             }
 
             devAppList.innerHTML = myApps.map(app => {
-                let statusBadge = '<span class="bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">Pending Admin Testing (24h)</span>';
+                let statusBadge = '<span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold border border-amber-200">Under Admin Testing (24h)</span>';
                 if (app.status === 'approved') {
-                    statusBadge = '<span class="bg-green-100 text-green-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">Approved & Live</span>';
+                    statusBadge = '<span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold border border-emerald-200">Approved & Live</span>';
                 } else if (app.status === 'rejected') {
-                    statusBadge = '<span class="bg-red-100 text-red-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">Rejected</span>';
+                    statusBadge = '<span class="bg-rose-100 text-rose-800 px-3 py-1 rounded-full text-xs font-bold border border-rose-200">Rejected</span>';
                 }
 
                 return `
-                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                        <div class="flex items-center gap-3">
-                            <img src="${app.icon || 'https://placehold.co/80x80/01875f/ffffff?text=App'}" class="w-12 h-12 rounded-xl object-cover border border-gray-200">
+                    <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200/80 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-slate-300 transition">
+                        <div class="flex items-center gap-4">
+                            <img src="${app.icon || 'https://placehold.co/80x80/01875f/ffffff?text=App'}" class="w-14 h-14 rounded-2xl object-cover border border-slate-200 shadow-sm flex-shrink-0">
                             <div>
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-bold text-gray-800 text-base">${escapeHtml(app.name)}</h4>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <h4 class="font-extrabold text-slate-900 text-base">${escapeHtml(app.name)}</h4>
                                     ${statusBadge}
                                 </div>
-                                <p class="text-xs text-gray-500">${escapeHtml(app.packageName || '')} • v${escapeHtml(app.version || '1.0')} • ${app.downloads || 0} installs</p>
-                                ${app.rejectReason ? `<p class="text-xs text-red-600 font-medium mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Reason: ${escapeHtml(app.rejectReason)}</p>` : ''}
+                                <p class="text-xs font-semibold text-slate-500 mt-1">${escapeHtml(app.packageName || '')} • v${escapeHtml(app.version || '1.0')} • ${app.downloads || 0} installs</p>
+                                ${app.rejectReason ? `<p class="text-xs text-rose-600 font-bold mt-1 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-100"><i class="fa-solid fa-triangle-exclamation"></i> Reason: ${escapeHtml(app.rejectReason)}</p>` : ''}
                             </div>
                         </div>
 
                         <div class="flex items-center gap-2 w-full md:w-auto justify-end">
-                            <button onclick="openEditAppModal('${app.id}')" class="px-3 py-1.5 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg text-xs font-semibold text-gray-700 shadow-sm">
-                                <i class="fa-solid fa-pen"></i> Edit / Update
+                            <button onclick="openEditAppModal('${app.id}')" class="px-4 py-2 bg-white border border-slate-300 hover:bg-slate-100 rounded-xl text-xs font-bold text-slate-700 shadow-sm transition">
+                                <i class="fa-solid fa-pen text-slate-500 mr-1"></i> Edit / Resubmit
                             </button>
-                            <button onclick="deleteApp('${app.id}')" class="px-3 py-1.5 bg-red-50 border border-red-200 hover:bg-red-100 rounded-lg text-xs font-semibold text-red-600 shadow-sm">
-                                <i class="fa-solid fa-trash"></i> Delete
+                            <button onclick="deleteApp('${app.id}')" class="px-4 py-2 bg-rose-50 border border-rose-200 hover:bg-rose-100 rounded-xl text-xs font-bold text-rose-600 shadow-sm transition">
+                                <i class="fa-solid fa-trash mr-1"></i> Delete
                             </button>
                         </div>
                     </div>
@@ -743,6 +800,7 @@
             }).join('');
         }
 
+        // FIXED FUNCTION: Correctly resets the form using its updated ID "appForm"
         window.openUploadModal = function() {
             if (!currentUser) {
                 showToast("Please sign in first!", "error");
@@ -750,7 +808,11 @@
                 return;
             }
             document.getElementById('appModalTitle').innerText = "Upload New Application";
-            document.getElementById('appForm').reset();
+            
+            // Safe reset using id="appForm"
+            const form = document.getElementById('appForm');
+            if (form) form.reset();
+
             document.getElementById('formAppId').value = "";
             document.getElementById('formDevName').value = currentUser.displayName || currentUser.email.split('@')[0];
             document.getElementById('appModal').classList.remove('hidden');
@@ -805,14 +867,14 @@
 
             if (appId) {
                 db.ref(`apps/${appId}`).update(appData).then(() => {
-                    showToast("App updated! Submitted for 24h testing review.", "success");
+                    showToast("App updated! Submitted for testing review.", "success");
                     closeAppModal();
                 }).catch(err => showToast(err.message, "error"));
             } else {
                 appData.downloads = 0;
                 appData.createdAt = firebase.database.ServerValue.TIMESTAMP;
                 db.ref('apps').push(appData).then(() => {
-                    showToast("New app submitted for Admin approval!", "success");
+                    showToast("New app submitted for Admin testing!", "success");
                     closeAppModal();
                 }).catch(err => showToast(err.message, "error"));
             }
@@ -820,7 +882,7 @@
 
         window.deleteApp = function(appId) {
             if (confirm("Are you sure you want to delete this application?")) {
-                db.ref(`apps/${appId}`).remove().then(() => showToast("App removed.", "success"));
+                db.ref(`apps/${appId}`).remove().then(() => showToast("App removed successfully.", "success"));
             }
         };
 
@@ -829,10 +891,10 @@
 
         window.toggleAuthMode = function() {
             isSignUpMode = !isSignUpMode;
-            document.getElementById('authTitle').innerText = isSignUpMode ? "Create Account" : "Sign In";
-            document.getElementById('authSubmitBtn').innerText = isSignUpMode ? "Sign Up" : "Sign In";
+            document.getElementById('authTitle').innerText = isSignUpMode ? "Create Developer Account" : "Sign In";
+            document.getElementById('authSubmitBtn').innerText = isSignUpMode ? "Register Profile" : "Sign In";
             document.getElementById('displayNameField').style.display = isSignUpMode ? "block" : "none";
-            document.getElementById('authToggleText').innerText = isSignUpMode ? "Already have an account?" : "Don't have an account?";
+            document.getElementById('authToggleText').innerText = isSignUpMode ? "Already have an account?" : "Don't have a developer account?";
             document.getElementById('authToggleBtn').innerText = isSignUpMode ? "Sign In" : "Sign Up";
         };
 
@@ -846,14 +908,14 @@
                 auth.createUserWithEmailAndPassword(email, password)
                     .then(res => res.user.updateProfile({ displayName: name }))
                     .then(() => {
-                        showToast("Account created!", "success");
+                        showToast("Developer account created!", "success");
                         closeAuthModal();
                     })
                     .catch(err => showToast(err.message, "error"));
             } else {
                 auth.signInWithEmailAndPassword(email, password)
                     .then(() => {
-                        showToast("Signed in!", "success");
+                        showToast("Signed in successfully!", "success");
                         closeAuthModal();
                     })
                     .catch(err => showToast(err.message, "error"));
@@ -861,24 +923,24 @@
         };
 
         window.handleLogout = function() {
-            auth.signOut().then(() => showToast("Logged out", "success"));
+            auth.signOut().then(() => showToast("Logged out.", "success"));
         };
 
         function updateAuthUI() {
             const area = document.getElementById('authProfileArea');
             if (currentUser) {
                 area.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs font-semibold text-gray-700 hidden sm:inline">${escapeHtml(currentUser.displayName || currentUser.email)}</span>
-                        <button onclick="handleLogout()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-xs font-medium border border-gray-300">
+                    <div class="flex items-center gap-2 bg-slate-100 p-1 pl-3 rounded-full border border-slate-200">
+                        <span class="text-xs font-bold text-slate-800 hidden sm:inline">${escapeHtml(currentUser.displayName || currentUser.email.split('@')[0])}</span>
+                        <button onclick="handleLogout()" class="bg-white hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm transition">
                             Logout
                         </button>
                     </div>
                 `;
             } else {
                 area.innerHTML = `
-                    <button onclick="openAuthModal()" class="flex items-center gap-2 bg-play-500 text-white px-4 py-1.5 rounded-full text-sm font-medium hover:bg-play-600 transition shadow-sm">
-                        <i class="fa-solid fa-user"></i>
+                    <button onclick="openAuthModal()" class="flex items-center gap-2 bg-play-500 hover:bg-play-600 active:scale-95 text-white px-5 py-2 rounded-full text-sm font-semibold transition shadow-md shadow-play-500/20">
+                        <i class="fa-solid fa-user text-xs"></i>
                         <span>Sign In</span>
                     </button>
                 `;
@@ -887,10 +949,21 @@
 
         function showToast(msg, type = "success") {
             const toast = document.getElementById('toast');
+            const toastIconBg = document.getElementById('toastIconBg');
+            const toastIcon = document.getElementById('toastIcon');
+            
             document.getElementById('toastMsg').innerText = msg;
-            document.getElementById('toastIcon').className = type === "error" ? "fa-solid fa-circle-exclamation text-red-400" : "fa-solid fa-circle-check text-green-400";
+            
+            if (type === "error") {
+                toastIconBg.className = "w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center flex-shrink-0";
+                toastIcon.className = "fa-solid fa-circle-exclamation text-rose-600";
+            } else {
+                toastIconBg.className = "w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0";
+                toastIcon.className = "fa-solid fa-circle-check text-emerald-600";
+            }
+
             toast.classList.remove('translate-x-full');
-            setTimeout(() => toast.classList.add('translate-x-full'), 3000);
+            setTimeout(() => toast.classList.add('translate-x-full'), 3200);
         }
 
         function escapeHtml(str) {
